@@ -1,0 +1,48 @@
+<form>
+  <div>
+    <label>Name:</label> <input name="product[name]" placeholder="Name" [(ngModel)]="product.name">
+    <fieldset>
+      <legend>Global Attributes</legend>
+        <div *ngFor="let global_attribute of product.global_attributes; trackBy:trackByIndex; let index = index">
+          <input name="product[global_attributes][key][{{index}}]" [(ngModel)]="global_attribute.key" placeholder="Merkmal">
+          <input name="product[global_attributes][value][{{index}}]" placeholder="Wert" [(ngModel)]="global_attribute.value">
+          <button (click)="removeGlobalColumn(index)">-</button>
+        </div>
+        <button (click)="addGlobalColumn()">Neues allgemeines Attribut</button>
+    </fieldset>
+    <hr>
+    <fieldset>
+      <legend>Variables</legend>
+      <table>
+        <tr>
+          <td></td>
+          <td *ngFor="let column_key of product.global_attributes; let index = index; trackBy:trackByIndex">
+            <input name="product[columns][{{index}}]" [(ngModel)]="column_key.key" placeholder="Merkmal">
+          </td>
+          <td *ngFor="let column_key of product.column_keys; let index = index; trackBy:trackByIndex">
+            <input name="product[columns][1{{index}}]" [(ngModel)]="product.column_keys[index]" placeholder="Merkmal">
+            <button (click)="deleteColumn(index)">-</button>
+          </td>
+          <td><button (click)="addColumn()">+</button> Actions</td>
+        </tr>
+        <tr *ngFor="let row of product.rows; let i = index;">
+          <td>Zeile {{i + 1}}</td>
+          <td *ngFor="let row of product.global_attributes; let j = index;">
+            <input name="product[attributes][i][j]" placeholder="Wert" value="{{row.value}}">
+          </td>
+          <td *ngFor="let column of row; let j = index">
+            <input name="product[attributes][i][j]" placeholder="Wert" value="{{row[j]}}">
+          </td>
+          <td>
+            <button (click)="deleteRow(i)">Löschen</button><button>Speichern</button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="1">
+            <button (click)="addRow()">Neue Zeile</button>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+  </div>
+</form>
